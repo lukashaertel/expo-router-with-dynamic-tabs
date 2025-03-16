@@ -3,8 +3,13 @@ import {Image, StyleSheet} from "react-native";
 import {ThemedView} from "@/components/ThemedView";
 import {ThemedText} from "@/components/ThemedText";
 import {HelloWave} from "@/components/HelloWave";
+import {Link, RelativePathString} from "expo-router";
+import {useContext} from "react";
+import {DataContxt} from "@/app/_layout";
 
 export default function DayScreen() {
+    const data = useContext(DataContxt);
+    const ids = data.days.map(item => item.Id);
     return (
         <ParallaxScrollView
             headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}

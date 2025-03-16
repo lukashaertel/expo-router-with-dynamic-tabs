@@ -4,13 +4,15 @@ import {HelloWave} from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import {ThemedText} from '@/components/ThemedText';
 import {ThemedView} from '@/components/ThemedView';
-import {Link, RelativePathString} from "expo-router";
+import {Link, RelativePathString, useNavigationContainerRef} from "expo-router";
 import {useContext} from "react";
 import {DataContxt} from "@/app/_layout";
 
 export default function HomeScreen() {
     const data = useContext(DataContxt);
     const ids = data.days.map(item => item.Id);
+    
+    const {navigate} = useNavigationContainerRef();
     
     return (
         <ParallaxScrollView
@@ -25,9 +27,15 @@ export default function HomeScreen() {
                 <ThemedText type="title">Welcome!</ThemedText>
                 <HelloWave/>
             </ThemedView>
-            <ThemedText><Link href={"/events" as RelativePathString}>Events root</Link></ThemedText>
-            <ThemedText><Link href={`/events/${ids[0]}` as RelativePathString}>First day</Link></ThemedText>
-            <ThemedText><Link href={`/events/${ids.at(-1)}` as RelativePathString}>Last day</Link></ThemedText>
+            <ThemedText>
+                <Link onPress={()=>navigate("events")} href={"/events" as RelativePathString}>Events root</Link>
+            </ThemedText>
+            <ThemedText>
+                <Link onPress={()=>navigate("events",{screen:ids[0]})} href={`/events/${ids[0]}` as RelativePathString}>First day</Link>
+            </ThemedText>
+            <ThemedText>
+                <Link onPress={()=>navigate("events", {screen:ids.at(-1)})} href={`/events/${ids.at(-1)}` as RelativePathString}>Last day</Link>
+            </ThemedText>
         </ParallaxScrollView>
     );
 }

@@ -1,6 +1,6 @@
 import {DarkTheme, DefaultTheme, ThemeProvider} from '@react-navigation/native';
 import {useFonts} from 'expo-font';
-import {Stack} from 'expo-router';
+import {Stack, useNavigationContainerRef, usePathname} from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import {StatusBar} from 'expo-status-bar';
 import {createContext, useEffect, useState} from 'react';
@@ -28,6 +28,8 @@ export default function RootLayout() {
         SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
     });
 
+    // const pathname = usePathname();
+
     const [days, setDays] = useState<Day[]>([]);
 
     useEffect(() => {
@@ -42,9 +44,19 @@ export default function RootLayout() {
         }
     }, [loaded]);
 
+
+    const navigationContainerReference = useNavigationContainerRef();
+
+    // useEffect(()=>{
+    //     if(pathname.startsWith("/events/")){
+    //         navigationContainerReference.navigate('events',{screen:pathname.substring(8)});
+    //     }
+    // },[navigationContainerReference, pathname])
+
     if (!loaded || !days.length) {
         return null;
     }
+
 
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
