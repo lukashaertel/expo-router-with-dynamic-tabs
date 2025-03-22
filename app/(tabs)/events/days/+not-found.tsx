@@ -4,7 +4,7 @@ import {ThemedView} from "@/components/ThemedView";
 import {ThemedText} from "@/components/ThemedText";
 import {useContext, useMemo} from "react";
 import {DataContxt, Day} from "@/app/_layout";
-import {router, usePathname} from 'expo-router';
+import {RelativePathString, router, usePathname} from 'expo-router';
 import {useWindowDimensions} from 'react-native';
 import {TabView, SceneMap} from 'react-native-tab-view';
 
@@ -67,7 +67,7 @@ export default function DaysScreen() {
         <TabView
             navigationState={{index, routes}}
             renderScene={renderScene}
-            onIndexChange={index => router.replace(`/events/days/${data.days[index].Id}`)}
+            onIndexChange={index => router.replace(`/events/days/${data.days[index].Id}` as RelativePathString)}
             initialLayout={{width: layout.width}}
         />
     );
