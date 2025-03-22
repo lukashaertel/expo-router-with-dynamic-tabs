@@ -7,7 +7,6 @@ import {createContext, useEffect, useState} from 'react';
 import 'react-native-reanimated';
 
 import {useColorScheme} from '@/hooks/useColorScheme';
-import {store} from "expo-router/build/global-state/router-store";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -19,8 +18,16 @@ export interface Day {
     Id: string
 }
 
+export interface Track {
+    Name: string
+    LastChangeDateTimeUtc: string
+    Id: string
+}
+
+
 export const DataContxt = createContext({
-    days: [] as Day[]
+    days: [] as Day[],
+    tracks: [] as Track[],
 })
 
 export default function RootLayout() {
@@ -30,11 +37,15 @@ export default function RootLayout() {
     });
 
     const [days, setDays] = useState<Day[]>([]);
+    const [tracks, setTracks] = useState<Track[]>([]);
 
     useEffect(() => {
         fetch('https://app.eurofurence.org/EF28/Api/EventConferenceDays')
             .then(res => res.json())
             .then(res => setDays(res));
+        fetch('https://app.eurofurence.org/EF28/Api/EventConferenceTracks')
+            .then(res => res.json())
+            .then(res => setTracks(res));
     }, []);
 
     useEffect(() => {
@@ -48,7 +59,7 @@ export default function RootLayout() {
     }
     return (
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-            <DataContxt.Provider value={{days}}>
+            <DataContxt.Provider value={{days, tracks}}>
                 <Stack>
                     <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
                     <Stack.Screen name="+not-found"/>

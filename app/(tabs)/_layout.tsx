@@ -9,7 +9,6 @@ import {Colors} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
-
     const colorScheme = useColorScheme();
 
     return (
@@ -64,8 +63,31 @@ export default function TabLayout() {
                     // +not-found matches the days when we select it. But we link it to /events/days so the redirector
                     // component can handle going to the first day. This will also allow navigating directly to
                     // /events/days from anywhere else and have it go to the proper route.
-                    title: 'Events',
+                    title: 'Days',
                     href: `/events/days`
+                }}
+            />
+
+            {/* Index matches no track ID specified and redirects to the actual first track. */}
+            <Tabs.Screen
+                name="events/tracks/index"
+                options={{
+                    // We match the index route and hide it in the tabs navigator, as it is a route that is only
+                    // redirecting to the actual route.
+                    href: null
+                }}
+            />
+
+            {/* Matches all track IDs rendering them as the same component, preventing issues where navigation causes */}
+            {/* an immediate re-render. */}
+            <Tabs.Screen
+                name="events/tracks/+not-found"
+                options={{
+                    // +not-found matches the tracks when we select it. But we link it to /events/tracks so the redirector
+                    // component can handle going to the first track. This will also allow navigating directly to
+                    // /events/tracks from anywhere else and have it go to the proper route.
+                    title: 'Tracks',
+                    href: `/events/tracks`
                 }}
             />
         </Tabs>
