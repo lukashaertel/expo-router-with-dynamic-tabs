@@ -1,19 +1,15 @@
-import {Image, StyleSheet, Platform} from 'react-native';
+import {Image, StyleSheet} from 'react-native';
 
-import {HelloWave} from '@/components/HelloWave';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import {ThemedText} from '@/components/ThemedText';
 import {ThemedView} from '@/components/ThemedView';
-import {Link, RelativePathString, useNavigationContainerRef} from "expo-router";
+import {Link, RelativePathString} from "expo-router";
 import {useContext} from "react";
 import {DataContxt} from "@/app/_layout";
 
 export default function HomeScreen() {
     const data = useContext(DataContxt);
-    const ids = data.days.map(item => item.Id);
-    
-    const {navigate} = useNavigationContainerRef();
-    
+
     return (
         <ParallaxScrollView
             headerBackgroundColor={{light: '#A1CEDC', dark: '#1D3D47'}}
@@ -24,18 +20,18 @@ export default function HomeScreen() {
                 />
             }>
             <ThemedView style={styles.titleContainer}>
-                <ThemedText type="title">Welcome!</ThemedText>
-                <HelloWave/>
+                <ThemedText type="title">Navigate to a day</ThemedText>
             </ThemedView>
-            <ThemedText>
-                <Link onPress={()=>navigate("events")} href={"/events" as RelativePathString}>Events root</Link>
+
+            {/* Top level link without a day ID, handled by redirect. */}
+            <ThemedText type="defaultSemiBold">
+                <Link href="/events/days">Event days</Link>
             </ThemedText>
-            <ThemedText>
-                <Link onPress={()=>navigate("events",{screen:ids[0]})} href={`/events/${ids[0]}` as RelativePathString}>First day</Link>
-            </ThemedText>
-            <ThemedText>
-                <Link onPress={()=>navigate("events", {screen:ids.at(-1)})} href={`/events/${ids.at(-1)}` as RelativePathString}>Last day</Link>
-            </ThemedText>
+
+            {/* Render a list of links to the individual days. */}
+            {data.days.map(item => <ThemedText key={item.Id}>
+                <Link href={`/events/days/${item.Id}` as RelativePathString}>{item.Name}</Link>
+            </ThemedText>)}
         </ParallaxScrollView>
     );
 }

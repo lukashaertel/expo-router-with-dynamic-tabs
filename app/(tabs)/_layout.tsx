@@ -9,6 +9,7 @@ import {Colors} from '@/constants/Colors';
 import {useColorScheme} from '@/hooks/useColorScheme';
 
 export default function TabLayout() {
+
     const colorScheme = useColorScheme();
 
     return (
@@ -26,6 +27,8 @@ export default function TabLayout() {
                     default: {},
                 }),
             }}>
+
+            {/* Static screen, not important. */}
             <Tabs.Screen
                 name="index"
                 options={{
@@ -33,6 +36,8 @@ export default function TabLayout() {
                     tabBarIcon: ({color}) => <IconSymbol size={28} name="house.fill" color={color}/>,
                 }}
             />
+
+            {/* Static screen, not important. */}
             <Tabs.Screen
                 name="explore"
                 options={{
@@ -40,9 +45,23 @@ export default function TabLayout() {
                     tabBarIcon: ({color}) => <IconSymbol size={28} name="paperplane.fill" color={color}/>,
                 }}
             />
+
+            {/* Index matches no day ID specified and redirects to the actual first day. */}
             <Tabs.Screen
-                name="events"
-                options={{title: 'Events',href:'/events/[day]'}}
+                name="events/days/index"
+                options={{
+                    href: null
+                }}
+            />
+
+            {/* Matches all day IDs rendering them as the same component, preventing issues where navigation causes */}
+            {/* an immediate re-render. */}
+            <Tabs.Screen
+                name="events/days/+not-found"
+                options={{
+                    title: 'Events',
+                    href: `/events/days`
+                }}
             />
         </Tabs>
     );
