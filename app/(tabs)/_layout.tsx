@@ -50,6 +50,8 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="events/days/index"
                 options={{
+                    // We match the index route and hide it in the tabs navigator, as it is a route that is only
+                    // redirecting to the actual route.
                     href: null
                 }}
             />
@@ -59,6 +61,9 @@ export default function TabLayout() {
             <Tabs.Screen
                 name="events/days/+not-found"
                 options={{
+                    // +not-found matches the days when we select it. But we link it to /events/days so the redirector
+                    // component can handle going to the first day. This will also allow navigating directly to
+                    // /events/days from anywhere else and have it go to the proper route.
                     title: 'Events',
                     href: `/events/days`
                 }}

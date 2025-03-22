@@ -1,8 +1,31 @@
-# Welcome to your Expo app 👋
+# Expo router with dynamic tabs
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This example shows how to render a swipe-able top-tab view with dynamic elements used in
+conjunction with `expo-router` and integrated into the navigation.
 
-## Get started
+The key takeaway is that a `+not-found` route is used to handle all dynamically retrieved
+routes. That way, the component instance stays the same, as opposed to using a dynamic
+route like `[id]`, which would create a new instance on navigation.
+
+With the component instance staying the same, we can leverage the `react-native-tab-view`
+component and sync it with the current navigation state. The currently displayed index
+will be retrieved from our dynamic data, and setting the index (from the tab view) will
+perform a proper `expo-router` navigation.
+
+## Locations
+
+The meat of the logic is found in `(tabs)/events/days/+not-found.tsx`. The logic is documented in the
+file.
+
+There is an additional helper route to allow some basic navigation functionality. 
+Having `(tabs)/events/days/index` match the `events/days` path and redirecting to the first dynamic
+route instead allows proper navigation to the "top level" route.
+
+The layout component in `(tabs)/_layout.tsx` has some setup to allow for the
+`+not-found` route to be shown as active when a day is viewed. It also hides the
+index route from the tabs layout.
+
+## Setup
 
 1. Install dependencies
 
@@ -15,36 +38,3 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
    ```bash
     npx expo start
    ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
